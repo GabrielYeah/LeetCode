@@ -20,7 +20,8 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-public class Solution {
+// Recursive solution. Simple.
+public class Solution1 {
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<Integer>();
         search(root, result);
@@ -33,5 +34,25 @@ public class Solution {
         result.add(root.val);
         search(root.left, result);
         search(root.right, result);
+    }
+}
+
+// Iterative solution, not too hard.
+public class Solution {
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<Integer>();
+        if (root == null)
+            return result;
+        Stack<TreeNode> visit = new Stack<TreeNode>();
+        visit.add(root);
+        while (!visit.isEmpty()) {
+            TreeNode curr = visit.pop();
+            result.add(curr.val);
+            if (curr.right != null)
+                visit.push(curr.right);
+            if (curr.left != null)
+                visit.push(curr.left);
+        }
+        return result;
     }
 }
