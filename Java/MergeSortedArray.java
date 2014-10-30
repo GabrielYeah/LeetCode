@@ -10,9 +10,11 @@ public class Solution {
         for (int i = m + n - 1, j = m - 1, k = n - 1; i >= 0; i--) {
             int a = j >= 0 ? A[j] : Integer.MIN_VALUE;
             int b = k >= 0 ? B[k] : Integer.MIN_VALUE;
-            A[i] = a > b ? a : b;
-            j = a > b ? j - 1 : j;
-            k = a > b ? k : k - 1;
+            A[i] = Math.max(a, b);
+            if (a > b) 
+                j--;
+            else 
+                k--;
         }
     }
 }
