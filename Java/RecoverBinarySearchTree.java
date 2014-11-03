@@ -58,3 +58,58 @@ public class Solution1 {
         inorder(root.right);
     }
 }
+
+// Use Morris Inorder Binary Tree Traversal to control
+// the space complexity in constant
+public class Solution {
+    public void recoverTree(TreeNode root) {
+        TreeNode prev = null, curr = root;
+        TreeNode node1 = null, node2 = null;
+        TreeNode ahead = null;
+        while (curr != null) {
+            if (curr.left == null) {
+                // When curr's left is null, output and set curr to curr.right
+                if (ahead != null && ahead.val > curr.val) {
+                    if (node1 == null) {
+                        node1 = ahead;
+                        node2 = curr;
+                    } else {
+                        node2 = curr;
+                    }
+                }
+                ahead = curr;
+                curr = curr.right;
+            } else {
+                // Find curr's inorder prev node
+                prev = curr.left;
+                while (prev.right != null && prev.right != curr)
+                    prev = prev.right;
+                if (prev.right == null) {
+                    // If prev's right is null, set prev's right to curr
+                    prev.right = curr;
+                    curr = curr.left;
+                } else {
+                    // If prev's right is curr, set prev's right back to null
+                    // Set curr to curr's right
+                    if (ahead.val > curr.val) {
+                        if (node1 == null) {
+                            node1 = ahead;
+                            node2 = curr;
+                        } else {
+                            node2 = curr;
+                        }
+                    }
+                    ahead = curr;
+                    prev.right = null;
+                    curr = curr.right;
+                }
+            }
+        }
+        if (node1 != null && node2 != null) {
+            int tmp = node1.val;
+            node1.val = node2.val;
+            node2.val = tmp;
+        }
+    }
+
+}
