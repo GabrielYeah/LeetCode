@@ -15,7 +15,7 @@
  *     }
  * }
  */
-public class Solution {
+public class Solution1 {
     public ListNode deleteDuplicates(ListNode head) {
         if (head == null)
             return null;
@@ -30,6 +30,15 @@ public class Solution {
                 prev = curr;
             }
         }
+        return head;
+    }
+}
+
+public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        for (ListNode curr = head; curr != null; curr = curr.next)
+            while (curr.next != null && curr.next.val == curr.val)
+                curr.next = curr.next.next;
         return head;
     }
 }
