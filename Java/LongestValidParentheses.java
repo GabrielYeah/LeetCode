@@ -33,3 +33,29 @@ public class Solution {
         return max;
     }
 }
+
+public class Solution {
+    public int longestValidParentheses(String s) {
+        if (s == null || s.length() == 0)
+            return 0;
+        // Maintain a stack to store all the possible right left boundary
+        Stack<Integer> stack = new Stack<Integer>();
+        int max = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ')' && !stack.isEmpty() && s.charAt(stack.peek()) == '(') {
+                // If there is a match, pop the matched from stack
+                stack.pop();
+                if (stack.isEmpty())
+                    // Stack is empty, then matches to the head of the string
+                    max = i + 1;
+                else
+                    // Else, to the last unmatched character
+                    max = Math.max(i - stack.peek(), max);
+            } else {
+                // If a character cannot match with others, push to stack
+                stack.push(i);
+            }
+        }
+        return max;
+    }
+}
