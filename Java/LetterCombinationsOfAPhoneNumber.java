@@ -40,3 +40,28 @@ public class Solution {
         }
     }
 }
+
+// Final version. With a dict, the code is much cleaner.
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> result = new ArrayList<String>();
+        if (digits == null)
+            return result;
+        String[] dict = new String[]{"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        dfs(digits, dict, 0, new StringBuilder(""), result);
+        return result;
+    }
+    
+    private void dfs(String digits, String[] dict, int depth, StringBuilder sb, List<String> result) {
+        if (digits.length() == depth) {
+            result.add(sb.toString());
+            return;
+        }
+        int num = digits.charAt(depth) - '2';
+        for (int i = 0; i < dict[num].length(); i++) {
+            sb.append(dict[num].charAt(i));
+            dfs(digits, dict, depth + 1, sb, result);
+            sb.deleteCharAt(sb.length() - 1);
+        }
+    }
+}
