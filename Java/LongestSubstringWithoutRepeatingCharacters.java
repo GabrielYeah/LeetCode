@@ -22,3 +22,25 @@ public class Solution {
         return res;
     }
 }
+
+// Second try. A different idea. Instead of constantly changing the elements in the set,
+// just keep updating the left boundary.
+// Keep in mind that it is necessary to set a meaning to each variable.
+// Here, l is a boundary, which protects the min window and keep the repeated chars out.
+// So this l should never be back when moving forward.
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.length() == 0)
+            return 0;
+        Map<Character, Integer> dict = new HashMap<Character, Integer>();
+        char[] a = s.toCharArray();
+        int maxLen = 0, l = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (dict.containsKey(a[i]))
+                l = Math.max(dict.get(a[i]) + 1, l);
+            dict.put(a[i], i);
+            maxLen = Math.max(maxLen, i - l + 1);
+        }
+        return maxLen;
+    }
+}
