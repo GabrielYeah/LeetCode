@@ -51,3 +51,25 @@ public class Solution {
         return sb.toString();
     }
 }
+
+// Third version.
+public class Solution {
+    public String convert(String s, int nRows) {
+        if (s == null || s.length() <= 1 || nRows <= 1)
+            return s;
+        StringBuilder sb = new StringBuilder();
+        int size = 2 * nRows - 2;
+        int num = s.length() / size + 1;
+        for (int i = 0; i < nRows; i++) {
+            for (int j = 0; j < num; j++) {
+                if (size * j + i < s.length())
+                    sb.append(s.charAt(size * j + i));
+                if (i == 0 || i == nRows - 1)
+                    continue;
+                if (size * (j + 1) - i < s.length())
+                    sb.append(s.charAt(size * (j + 1) - i));
+            }
+        }
+        return sb.toString();
+    }
+}

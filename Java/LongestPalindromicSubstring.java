@@ -51,5 +51,38 @@ public class Solution {
     }
 }
 
+// Third attempt. Instead of returning string on every search, return length.
+public class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() <= 1)
+            return s;
+        int maxLen = 1, start = 0, end = 0;
+        for (int i = 0; i < s.length() - 1; i++) {
+            int len = findLen(s, i - 1, i + 1);
+            if (len * 2 + 1 > maxLen) {
+                maxLen = len * 2 + 1;
+                start = i - len;
+                end = i + len;
+            }
+            if (s.charAt(i) == s.charAt(i + 1)) {
+                len = findLen(s, i - 1, i + 2);
+                if (len * 2 + 2 > maxLen) {
+                    maxLen = len * 2 + 2;
+                    start = i - len;
+                    end = i + 1 + len;
+                }
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+    
+    private int findLen(String s, int l, int r) {
+        int len = 0;
+        while (l >= 0 && r < s.length() && s.charAt(l--) == s.charAt(r++))
+            len++;
+        return len;
+    }
+}
+
 // Best solution. O(n) time complexity.
 // https://www.evernote.com/shard/s86/nl/9223575/31aae83f-e697-490d-93aa-a46f5edfa88e/
