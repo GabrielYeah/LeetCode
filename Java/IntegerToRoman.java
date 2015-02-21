@@ -89,3 +89,36 @@ public class Solution {
         return sb.toString();
     }
 }
+
+// Another version
+public class Solution {
+    static final String[] strs = {"I", "V", "X", "L", "C", "D", "M"};
+    
+    public String intToRoman(int num) {
+        int base = 3, factor = 1000;
+        StringBuilder sb = new StringBuilder();
+        while (base >= 0) {
+            int digit = num / factor;
+            if (digit > 0)
+                addRoman(base, digit, sb);
+            num = num % factor;
+            base = base - 1;
+            factor = factor / 10;
+        }
+        return sb.toString();
+    }
+    
+    private void addRoman(int base, int digit, StringBuilder sb) {
+        int m = 2 * base + 1;
+        if (digit <= 3) {
+            while (digit-- > 0) sb.append(strs[m - 1]);
+        } else if (digit == 4) {
+            sb.append(strs[m - 1] + strs[m]);
+        } else if (digit == 9) {
+            sb.append(strs[m - 1] + strs[m + 1]);
+        } else {
+            sb.append(strs[m]);
+            while (digit-- > 5) sb.append(strs[m - 1]);
+        }
+    }
+}

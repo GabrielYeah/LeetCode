@@ -65,3 +65,28 @@ public class Solution {
         }
     }
 }
+
+// Better version
+public class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<String>();
+        if (digits == null)
+            return res;
+        search(digits, new char[digits.length()], 0, res);
+        return res;
+    }
+    
+    private void search(String digits, char[] path, int depth, List<String> res) {
+        if (depth >= digits.length()) {
+            res.add(String.valueOf(path));
+            return;
+        }
+        int digit = digits.charAt(depth) - '0';
+        int numOfIterations = digit == 7 || digit == 9 ? 4 : 3;
+        int offset = digit > 7 ? 1 : 0;
+        for (int i = 0; i < numOfIterations; i++) {
+            path[depth] = (char)('a' + (digit - 2) * 3 + offset + i);
+            search(digits, path, depth + 1, res);
+        }
+    }
+}
