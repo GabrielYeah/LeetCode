@@ -55,3 +55,34 @@ public class Solution {
         return dummy.next;
     }
 }
+
+// A better and cleaner version. The thought here is to split the basic operations
+// into a function, so that it can be easily iterated and reused.
+public class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null)
+            return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode prev = dummy;
+        for (int i = 1; head != null; head = head.next, i++) {
+            if (i % k == 0) {
+                prev = reverse(prev, head.next);
+                head = prev;
+            }
+        }
+        return dummy.next;
+    }
+    
+    private ListNode reverse(ListNode prev, ListNode nextHead) {
+        ListNode last = prev.next;
+        ListNode curr = last.next;
+        while (curr != nextHead) {
+            last.next = curr.next;
+            curr.next = prev.next;
+            prev.next = curr;
+            curr = last.next;
+        }
+        return last;
+    }
+}
