@@ -46,3 +46,20 @@ public class Solution {
             
     }
 }
+
+// Revised version. Taking overflow into account.
+public class Solution {
+    public double pow(double x, int n) {
+        if (n == Integer.MIN_VALUE)
+            return 1 / (pow(x, Integer.MAX_VALUE) * x);
+        if (n < 0)
+            return 1 / pow(x, -n);
+        if (n == 0)
+            return 1;
+        double val = pow(x, n / 2);
+        if (n % 2 == 1)
+            return val * val * x;
+        else
+            return val * val;
+    }
+}

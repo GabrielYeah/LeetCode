@@ -48,3 +48,24 @@ public class Solution {
         return count;
     }
 }
+
+// DP version. Different from Greedy.
+public class Solution {
+    public int jump(int[] A) {
+        if (A == null || A.length == 0)
+            return 0;
+        int[] res = new int[A.length];
+        int farthest = -1;
+        Arrays.fill(res, 1, A.length, Integer.MAX_VALUE);
+        for (int i = 0; i < A.length - 1; i++) {
+            if (i + A[i] <= farthest)
+                continue;
+            farthest = i + A[i];
+            if (farthest >= A.length - 1)
+                return res[i] + 1;
+            for (int j = i + 1; j < A.length && j <= i + A[i]; j++)
+                res[j] = Math.min(res[i] + 1, res[j]);
+        }
+        return res[A.length - 1];
+    }
+}
