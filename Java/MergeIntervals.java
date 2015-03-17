@@ -45,3 +45,27 @@ class IntervalCompare implements Comparator<Interval> {
         return o1.start - o2.start;
     }
 }
+
+// A revised version. Make the code cleaner.
+public class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        List<Interval> res = new ArrayList<Interval>();
+        if (intervals == null || intervals.size() == 0)
+            return res;
+        Collections.sort(intervals, new IntervalComparator());
+        for (Interval val : intervals) {
+            Interval last = res.isEmpty() ? null : res.get(res.size() - 1);
+            if (last == null || last.end < val.start)
+                res.add(new Interval(val.start, val.end));
+            else
+                last.end = Math.max(last.end, val.end);
+        }
+        return res;
+    }
+    
+    class IntervalComparator implements Comparator<Interval> {
+        public int compare(Interval i1, Interval i2) {
+            return i1.start - i2.start;
+        }
+    }
+}

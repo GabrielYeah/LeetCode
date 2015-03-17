@@ -76,3 +76,66 @@ public class Solution {
         return result;
     }
 }
+
+// A more readable version. Split the words into lists, and build strings accordingly.
+public class Solution {
+    public List<String> fullJustify(String[] words, int L) {
+        List<String> res = new ArrayList<String>();
+        if (words == null || words.length == 0)
+            return res;
+        List<List<String>> lists = splitWords(words, L);
+        for (int i = 0; i < lists.size(); i++) {
+            List<String> list = lists.get(i);
+            int spaceNum = getSpaceNum(list, L);
+            String str;
+            if (list.size() == 1)
+                str = getString(list, 0, 0, spaceNum);
+            else if (i < lists.size() - 1)
+                str = getString(list, spaceNum / (list.size() - 1), spaceNum % (list.size() - 1), 0);
+            else
+                str = getString(list, 1, 0, spaceNum - list.size() + 1);
+            res.add(str);
+        }
+        return res;
+    }
+    
+    private List<List<String>> splitWords(String[] words, int L) {
+        List<String> currlist = new ArrayList<String>(Arrays.asList(words[0]));
+        List<List<String>> lists = new ArrayList<List<String>>(Arrays.asList(currlist));
+        int remaining = L - words[0].length();
+        for (int i = 1; i < words.length; i++) {
+            String str = words[i];
+            if (remaining >= str.length() + 1) {
+                currlist.add(str);
+                remaining -= str.length() + 1;
+            } else {
+                currlist = new ArrayList<String>(Arrays.asList(str));
+                lists.add(currlist);
+                remaining = L - str.length();
+            }
+        }
+        return lists;
+    }
+    
+    private int getSpaceNum(List<String> list, int L) {
+        int spaceNum = L;
+        for (String str : list)
+            spaceNum -= str.length();
+        return spaceNum;
+    }
+    
+    private String getString(List<String> list, int normal, int extra, int tailing) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size() - 1; i++) {
+            sb.append(list.get(i));
+            for (int k = normal; k > 0; k--)
+                sb.append(' ');
+            if (extra-- > 0)
+                sb.append(' ');
+        }
+        sb.append(list.get(list.size() - 1));
+        while (tailing-- > 0)
+            sb.append(' ');
+        return sb.toString();
+    }
+}
