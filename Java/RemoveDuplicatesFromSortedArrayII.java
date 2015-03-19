@@ -31,3 +31,24 @@ public class Solution {
         return prev + 1;
     }
 }
+
+// A clearer version.
+public class Solution {
+    public int removeDuplicates(int[] A) {
+        if (A == null || A.length == 0)
+            return 0;
+        int l = 0, r = 0, count = 0;
+        while (r < A.length) {
+            if (r == 0 || A[r - 1] != A[r]) {
+                A[l++] = A[r++];
+                count = 0;
+            } else {
+                if (count < 1)
+                    A[l++] = A[r];
+                count++;
+                r++;
+            }
+        }
+        return l;
+    }
+}
