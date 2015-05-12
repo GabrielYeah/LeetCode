@@ -19,6 +19,8 @@
 //   ".Q.."]
 // ]
 
+
+
 // First attempt. TLE at 8.
 public class Solution {
     public List<String[]> solveNQueens(int n) {
